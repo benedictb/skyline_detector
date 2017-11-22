@@ -19,7 +19,7 @@ class BOV(object):
         # self.SIFT = cv2.xfeatures.SIFT_create()
 
         # Model
-        self.ORB = cv2.ORB_create()
+        self.ORB = cv2.ORB_create(10)
 
         # Cluster method
         self.kMeans = KMeans(VOCAB_SIZE)
@@ -41,11 +41,7 @@ class BOV(object):
         return res
 
     def make_vocab(self, features):
-        m = condense(features, dim=3)
-        print(m[0])
-        print(len(m[0]))
-        print(len(m) * VOCAB_SIZE)
-        exit(0)
+        m = condense(features)
         preds = self.kMeans.fit_predict(m)
         length = len(features)
         hist = np.zeros([length, VOCAB_SIZE])
