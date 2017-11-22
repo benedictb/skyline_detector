@@ -31,9 +31,12 @@ class BOV(object):
         features, labels = self.get_features(self.trainstream)
         self.make_vocab(features)
         self.standardize()
+        print('Training classifier...')
         self.svm.fit(self.hist, labels)
+        print('Classifier trained')
 
     def test(self):
+        print('Testing...')
         res = []
         for img, label in self.teststream:
             # In pred, label form
@@ -41,20 +44,24 @@ class BOV(object):
         return res
 
     def make_vocab(self, features):
+        print("Making vocab...")
         m = condense(features)
+        print('Clustering...')
         preds = self.kMeans.fit_predict(m)
         length = len(features)
         hist = np.zeros([length, VOCAB_SIZE])
         c = counter()
-
+        print('Making histogram')
         for i in range(length):
             for _ in range(len(features[i])):
                 word = preds[next(c)]
                 hist[i][word] += 1
 
         self.hist = hist
+        print('Vocab complete')
 
     def get_features(self,stream):
+        print('Getting features...')
         descriptors = []
         labels = []
         for img, target in self.trainstream:
@@ -62,6 +69,7 @@ class BOV(object):
             _, des = self.ORB.compute(img, kp)
             descriptors.append(des)
             labels.append(labels)
+        print('Getting features complete')
         return descriptors, labels
 
 
