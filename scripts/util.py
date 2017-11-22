@@ -25,13 +25,18 @@ def data_loader(filepath='/lists/skyline_data.txt', channels=cv2.IMREAD_GRAYSCAL
         yield (img, label)
 
 def condense(l, dim=None):
-    if not dim:
-        dim = len(l.shape)
+    # if not dim:
+    #     dim = len(l.shape)
+    #
+    # if dim == 1:
+    #     return l
+    # else:
+    #     return np.concatenate(l)
+    m = np.concatenate(l[0])
+    for arr in l[1:]:
+        np.append(m, arr)
+    return m
 
-    if dim == 1:
-        return l
-    else:
-        return np.concatenate(l)
 
 def counter(n=0):
     while True:

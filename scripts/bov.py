@@ -7,6 +7,7 @@ from scripts.preprocess import resize
 from scripts.util import data_loader, condense, counter, accuracy
 from sklearn.cluster import KMeans
 
+### do this
 PREPROCESS_QUEUE = [resize]
 CHANNELS = cv2.IMREAD_GRAYSCALE
 VOCAB_SIZE = 20
@@ -41,6 +42,10 @@ class BOV(object):
 
     def make_vocab(self, features):
         m = condense(features, dim=3)
+        print(m[0])
+        print(len(m[0]))
+        print(len(m) * VOCAB_SIZE)
+        exit(0)
         preds = self.kMeans.fit_predict(m)
         length = len(features)
         hist = np.zeros([length, VOCAB_SIZE])
@@ -61,7 +66,7 @@ class BOV(object):
             _, des = self.ORB.compute(img, kp)
             descriptors.append(des)
             labels.append(labels)
-        return labels, descriptors
+        return descriptors, labels
 
 
     def standardize(self):
