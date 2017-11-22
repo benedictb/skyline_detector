@@ -3,8 +3,8 @@ import numpy as np
 from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVC
 
-from scripts.preprocess import resize
-from scripts.util import data_loader, condense, counter, accuracy
+from preprocess import resize
+from util import data_loader, condense, counter, accuracy
 from sklearn.cluster import KMeans
 
 ### do this

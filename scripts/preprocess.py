@@ -4,7 +4,7 @@ import cv2
 import math
 import numpy as np
 
-from scripts.util import data_loader, show
+from util import data_loader, show
 
 
 def blur(img, n=5):
