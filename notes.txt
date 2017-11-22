@@ -1,0 +1,34 @@
+
+## TODO
+# Need to uhh reduce the image size EHHH ehh
+# Get horizon cropping to work
+
+
+#  Interactive
+# http://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_imgproc/py_grabcut/py_grabcut.html#grabcut
+
+# Contours
+# http://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_imgproc/py_contours/py_contours_begin/py_contours_begin.html#contours-getting-started
+
+# bg_subtraction
+# https://docs.opencv.org/3.3.0/db/d5c/tutorial_py_bg_subtraction.html
+
+
+# Contours
+# The biggest contour *should* be the sky. This is a good heuristic. If bc of the angle the sky is divided into 2,
+# then the biggest contour should still be the sky. Water might sometimes be larger, in which case we can distinguish
+# from sky by position in the image
+
+# It might help to do a noise reduction
+# It might help to do a sharpening after the binarization & blur
+
+## Surf
+# So ok maybe orientation not necessary, but at the beginning let's give it a shot
+http://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_feature2d/py_surf_intro/py_surf_intro.html
+- make sure surf.extended = True to get all 128 features
+-
+
+# ORB, just because it's being used
+
+############
+MAYBE find some features, find the moment of the different skyscrapers, make the crop there
