@@ -1,0 +1,7 @@
+For the test code, I picked the best model: BF2.
+
+To run, simply type the command 'python3 bf.py' from the project root directory.
+
+I've included the bag-of-visual-words code as well, but there is no example set up for that code.
+
+Packages required: OpenCV,
