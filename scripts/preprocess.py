@@ -6,6 +6,10 @@ import numpy as np
 
 from util import data_loader, show
 
+# (even)
+SIZE = 448
+SHAVE = .15
+
 
 def blur(img, n=5):
     return cv2.medianBlur(img, n)
@@ -28,8 +32,9 @@ def binarize(img):
     img = cv2.adaptiveThreshold(img, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 11, 2)
     return img
 
+
 def inverse(img):
-     return cv2.bitwise_not(img)
+    return cv2.bitwise_not(img)
 
 
 def erode(img):
@@ -40,6 +45,7 @@ def erode(img):
     mask = mask / 255
     out = img * mask
     return out
+
 
 # BG SUb
 def reverse_bg_subtraction(img):
@@ -66,9 +72,11 @@ def find_horizon(img):
             x2 = int(x0 - 1000 * (-b))
             y2 = int(y0 - 1000 * (a))
 
-            # cv2.line(img,(x1,y1), (x2,y2), (0,0,255),2)
-
     return img
+
+
+def grayscale(img):
+    return cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
 
 def resize(img):
@@ -79,16 +87,49 @@ def resize(img):
     return img
 
 
+def resize_to_square(img, size=SIZE):
+    if img.shape[0] > size:
+        rat = size / img.shape[0]
+        img = cv2.resize(img, (0, 0), fx=rat, fy=rat)
+    if img.shape[1] > size:
+        mid = int(math.ceil(img.shape[1] / 2))
+        img = img[:, (mid - (int(size / 2))):(mid + int(size / 2))]
+
+    if img.shape[0] < size:
+        difference = int(math.ceil((size - img.shape[0]) / 2))
+        img = cv2.copyMakeBorder(img, difference, difference, 0, 0, cv2.BORDER_CONSTANT)
+    if img.shape[1] < size:
+        difference = int(math.ceil((size - img.shape[1]) / 2))
+        img = cv2.copyMakeBorder(img, 0, 0, difference, difference, cv2.BORDER_CONSTANT)
+
+    img = img[:size, :size, :]
+
+    assert img.shape == (size, size, 3)
+    return img
+
+
+def chop_lower(img):
+    return img[:2 * int(img.shape[0] / 3), :]
+
+
+def zoomy(img, shave=SHAVE):
+    y, x, _ = img.shape
+    chunk = int(shave * y)
+    return img[chunk:y - chunk, :, :]
+
+
+def zoomx(img, shave=SHAVE):
+    y, x, _ = img.shape
+    chunk = int(shave * y)
+    return img[chunk:y - chunk, :, :]
+
+
 if __name__ == '__main__':
     loader = data_loader(filepath='/home/benedict/classes/cv/project/lists/splits/0_train.txt',
                          channels=cv2.IMREAD_GRAYSCALE, randomize=False)
-    # loader = data_loader(filepath='/home/benedict/classes/cv/project/lists/splits/0_train.txt', channels=cv2.IMREAD_COLOR, randomize=True)
 
     for img, target in loader:
         img = resize(img)
         img = binarize(img)
         img = inverse(img)
-        # img = erode(img)
-        # img = find_horizwon(img)
-        # img = reverse_bg_subtraction(img)
         show(img)
